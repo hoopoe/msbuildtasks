@@ -17,6 +17,8 @@ namespace MSBuild.Community.Tasks.Tests.Git
             task.BuildEngine = new MockBuild();
             task.ToolPath = @"C:\Program Files (x86)\Git\bin";
 
+            task.Command = @"rev-parse --verify --short";
+
             string prjRootPath = TaskUtility.GetProjectRootDirectory(true);
             task.LocalPath = Path.Combine(prjRootPath, @"Source");
 
@@ -24,7 +26,7 @@ namespace MSBuild.Community.Tasks.Tests.Git
 
             Assert.IsTrue(result, "Execute Failed");
 
-            Assert.IsFalse(string.IsNullOrEmpty(task.CommitHash), "Invalid Revision Number");
+            Assert.IsFalse(string.IsNullOrEmpty(task.Version), "Invalid Version");
         }
 
     }

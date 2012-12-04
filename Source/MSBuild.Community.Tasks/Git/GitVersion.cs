@@ -30,6 +30,7 @@ THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Text.RegularExpressions;
 using Microsoft.Build.Framework;
 using Microsoft.Build.Utilities;
 
@@ -45,8 +46,7 @@ namespace MSBuild.Community.Tasks.Git
         /// </summary>
         public GitVersion()
         {
-            Command = "rev-parse";
-            Short = true;
+            Command = "status";            
             Revision = "HEAD";                    
         }
 
@@ -56,30 +56,22 @@ namespace MSBuild.Community.Tasks.Git
         public string Revision { get; set; }
 
         /// <summary>
-        /// Gets or sets the commit hash.
+        /// Gets or sets regex to get Version from 
         /// </summary>
-        [Output]
-        public string CommitHash { get; set; }
+        public string VersionRegex { get; set; }
 
         /// <summary>
-        /// Gets or sets a value indicating whether to abbreviate to a shorter unique name.
+        /// Gets or sets git version.
         /// </summary>
-        /// <value>
-        ///   <c>true</c> if short; otherwise, <c>false</c>.
-        /// </value>
-        public bool Short { get; set; }
+        [Output]
+        public string Version { get; set; }        
 
         /// <summary>
         /// Generates the arguments.
         /// </summary>
         /// <param name="builder">The builder.</param>
         protected override void GenerateArguments(CommandLineBuilder builder)
-        {
-            builder.AppendSwitch("--verify");
-
-            if (Short)
-                builder.AppendSwitch("--short");
-
+        {            
             base.GenerateArguments(builder);
 
             builder.AppendSwitch(Revision);
@@ -92,12 +84,19 @@ namespace MSBuild.Community.Tasks.Git
         /// <param name="messageImportance">A value of <see cref="T:Microsoft.Build.Framework.MessageImportance"/> that indicates the importance level with which to log the message.</param>
         protected override void LogEventsFromTextOutput(string singleLine, MessageImportance messageImportance)
         {
-            bool isError = messageImportance == StandardErrorLoggingImportance;
-
-            if (isError)
+            if (messageImportance == this.StandardErrorLoggingImportance)
+            {
                 base.LogEventsFromTextOutput(singleLine, messageImportance);
+            }
+            else if (!string.IsNullOrEmpty(this.VersionRegex))
+            {
+                Match match = Regex.Match(singleLine, this.VersionRegex, RegexOptions.IgnoreCase);
+                this.Version = match.Groups[1].Value;
+            }
             else
-                CommitHash = singleLine.Trim();
+            {
+                this.Version = singleLine.Trim();
+            }
         }
     }
 }

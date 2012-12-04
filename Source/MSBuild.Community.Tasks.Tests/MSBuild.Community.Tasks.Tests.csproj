@@ -17,7 +17,7 @@
     <UpgradeBackupLocation>
     </UpgradeBackupLocation>
     <AssemblyOriginatorKeyFile>..\MSBuild.Community.Tasks\MSBuild.Community.Tasks.snk</AssemblyOriginatorKeyFile>
-    <TargetFrameworkVersion>v3.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
     <TargetFrameworkProfile />
@@ -51,8 +51,7 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\NUnit.2.6.0.12054\lib\nunit.framework.dll</HintPath>
     </Reference>
-    <Reference Include="Rhino.Mocks, Version=3.6.0.0, Culture=neutral, PublicKeyToken=0b3305902db7183f, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
+    <Reference Include="Rhino.Mocks">
       <HintPath>..\packages\RhinoMocks.3.6.1\lib\net\Rhino.Mocks.dll</HintPath>
     </Reference>
     <Reference Include="System" />
@@ -78,8 +77,6 @@
     <Compile Include="Install\UninstallAssemblyTest.cs" />
     <Compile Include="JavaScript\JSCompressTest.cs" />
     <Compile Include="Math\ModuloTest.cs" />
-    <Compile Include="Oracle\AddTnsNameTest.cs" />
-    <Compile Include="Oracle\TnsParserTest.cs" />
     <Compile Include="FileUpdateTest.cs" />
     <Compile Include="IIS\AppPoolControllerTest.cs" />
     <Compile Include="IIS\AppPoolCreateTest.cs" />
@@ -114,7 +111,6 @@
     <Compile Include="User\UserTest.cs" />
     <Compile Include="WebDownloadTest.cs" />
     <Compile Include="XmlUpdateTest.cs" />
-    <Compile Include="FtpUpload\FtpUploadTest.cs" />
     <Compile Include="MailTest.cs" />
     <Compile Include="Math\AddTest.cs" />
     <Compile Include="Math\DivideTest.cs" />
@@ -188,6 +184,8 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="FtpUpload\" />
+    <Folder Include="Oracle\" />
     <Folder Include="Vault\" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSHARP.Targets" />

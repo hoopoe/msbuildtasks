@@ -2,7 +2,7 @@ using System;
 using MSBuild.Community.Tasks.Subversion;
 using NUnit.Framework;
 
-/
+
 
 namespace MSBuild.Community.Tasks.Tests.Subversion
 {
